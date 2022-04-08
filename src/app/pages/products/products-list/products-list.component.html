@@ -1,1 +1,7 @@
-<p>products-list works!</p>
+<div class="products" [ngClass]="{ disabled: disabled }">
+  <app-product-tile
+    *ngFor="let product of products"
+    [product]="product"
+    (onSelect)="onSelectProduct(product)">
+  </app-product-tile>
+</div>

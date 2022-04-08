@@ -1,1 +1,6 @@
-<app-products-list></app-products-list>
+<div [formGroup]="form">
+  <app-products-list
+    [products]="products"
+    formControlName="products">
+  </app-products-list>
+</div>
