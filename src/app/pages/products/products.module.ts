@@ -5,6 +5,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
 import { ProductsComponent } from './products/products.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductTileComponent } from './product-tile/product-tile.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -17,7 +18,8 @@ import { ProductTileComponent } from './product-tile/product-tile.component';
   imports: [
     CommonModule,
     ProductsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ]
 })
 export class ProductsModule { }
