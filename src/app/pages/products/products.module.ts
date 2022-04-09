@@ -6,6 +6,7 @@ import { ProductsComponent } from './products/products.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductTileComponent } from './product-tile/product-tile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 
 
 
@@ -13,7 +14,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [
     ProductsComponent,
     ProductsListComponent,
-    ProductTileComponent
+    ProductTileComponent,
+    AddEditProductComponent
   ],
   imports: [
     CommonModule,

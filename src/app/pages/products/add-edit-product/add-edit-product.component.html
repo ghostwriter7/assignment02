@@ -1,0 +1,32 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h3>{{ isNewProduct ? 'Add new product' : 'Update product' }}</h3>
+  <div class="form__control">
+    <label class="form__label" for="name">
+      Product's name
+      <input
+        formControlName="name"
+        type="text"
+        id="name">
+    </label>
+  </div>
+  <div class="form__control">
+    <label class="form__label" for="description">
+      Description
+      <input
+        formControlName="description"
+        type="text"
+        id="description">
+    </label>
+  </div>
+  <div class="form__actions">
+    <button
+      [disabled]="form.invalid"
+      type="submit"
+      class="btn btn-primary">{{ isNewProduct ? 'Add' : 'Update' }}</button>
+    <button
+      (click)="onClear()"
+      [disabled]="form.pristine"
+      type="button"
+      class="btn btn-secondary">Clear</button>
+  </div>
+</form>

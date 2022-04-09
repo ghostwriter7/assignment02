@@ -1,8 +1,8 @@
 @import "../../../../assets/styles/colors";
+@import '../../../../assets/styles/container';
 
 .products {
-  max-width: 1000px;
-  margin-inline: auto;
+  @include container;
   overflow: hidden;
 
   &__header {

@@ -1,0 +1,8 @@
+@import '../../../../assets/styles/container';
+@import '../../../../assets/styles/colors';
+
+.form {
+  @include container;
+  border: 4px solid $clr-accent;
+  padding: 1rem;
+}
