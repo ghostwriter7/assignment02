@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../core/services/ProductsService';
 import { Subject, takeUntil } from 'rxjs';
@@ -10,6 +10,7 @@ import { IconsService } from '../../../core/services';
   styleUrls: ['./add-edit-product.component.scss']
 })
 export class AddEditProductComponent implements OnInit, OnDestroy {
+  @ViewChildren('input') inputs!: QueryList<ElementRef>;
   public isNewProduct = true;
   public form!: FormGroup;
   public get name() { return this.form.get('name')!; }
@@ -49,20 +50,18 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
       : this._productsService.updateProduct(value);
 
     this.isNewProduct = true;
-    this.onClear();
+    this.form.reset({
+      name: '',
+      description: '',
+      id: ''
+    });
+
+    this.inputs.toArray().forEach(x => x.nativeElement.blur());
   }
 
   public onClear(): void {
-    if (this.form.value['id']) {
-      this.form.reset({ name: '', description: '', id: this.form.value['id']});
-    } else {
-      this.isNewProduct = true;
-      this.form.reset({
-        name: '',
-        description: '',
-        id: ''
-      });
-    }
+    const id = this.form.value['id'] ? this.form.value['id'] : '';
+    this.form.reset({ name: '', description: '', id });
   }
 
   ngOnDestroy() {

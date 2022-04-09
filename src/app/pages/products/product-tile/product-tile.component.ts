@@ -13,6 +13,7 @@ export class ProductTileComponent implements OnInit {
   @Input() product!: IProduct;
   @Output() onSelect = new EventEmitter<void>();
   public isActive$!: Observable<boolean>;
+  public showConfirmationPopup = false;
 
   constructor(public iconsService: IconsService,
               private _productsService: ProductsService) { }
@@ -20,6 +21,12 @@ export class ProductTileComponent implements OnInit {
   ngOnInit(): void {
     this.isActive$ = this._productsService.getSelectedProduct()
       .pipe(map(x => x === this.product));
+  }
+
+  public onShowConfirmation(): void {
+    setTimeout(() => {
+      this.showConfirmationPopup = false;
+    }, 3000);
   }
 
   public onDelete(): void {

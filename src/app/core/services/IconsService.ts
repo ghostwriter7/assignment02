@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import {
-  faCartPlus,
+  faCartPlus, faCheck,
   faChevronUp,
   faCirclePlus, faPencil,
-  faQuestionCircle,
+  faQuestionCircle, faTimes,
   faTrashArrowUp
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +18,9 @@ export class IconsService {
     trash: faTrashArrowUp,
     addProduct: faCartPlus,
     add: faCirclePlus,
-    update: faPencil
+    update: faPencil,
+    okay: faCheck,
+    cancel: faTimes
   };
 
   public getIcon(name: string): IconDefinition {

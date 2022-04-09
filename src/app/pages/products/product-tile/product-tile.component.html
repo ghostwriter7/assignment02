@@ -1,14 +1,31 @@
 <div
   (click)="onSelect.emit()"
   class="product" [ngClass]="{ active: isActive$ | async }">
-    <h3 class="product__name">{{ product.name }}</h3>
+  <h3 class="product__name">{{ product.name }}</h3>
+  <div class="product__actions">
+    <fa-icon
+      (mouseenter)="showConfirmationPopup = true"
+      [icon]="iconsService.getIcon('trash')">
+    </fa-icon>
     <fa-icon
       [attr.data-description]="product.description"
       class="product__description"
       [icon]="iconsService.getIcon('question')">
     </fa-icon>
-    <fa-icon
-      (click)="onDelete()"
-      [icon]="iconsService.getIcon('trash')">
-    </fa-icon>
+    <div
+      class="product__confirmation"
+      (mouseenter)="onShowConfirmation()"
+      *ngIf="showConfirmationPopup">
+      Are you sure?
+      <div>
+        <button class="btn btn--primary" (click)="onDelete()">
+          <fa-icon [icon]="iconsService.getIcon('okay')"></fa-icon>
+        </button>
+        <button class="btn btn--secondary" (click)="$event.stopPropagation(); showConfirmationPopup = false">
+          <fa-icon [icon]="iconsService.getIcon('cancel')"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+

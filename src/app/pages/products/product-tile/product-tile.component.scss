@@ -12,10 +12,6 @@
   cursor: pointer;
   transition: all .3s ease-in-out;
 
-  &:hover {
-    transform: scale(1.1);
-  }
-
   &:hover &__name {
     color: $clr-primary;
   }
@@ -42,6 +38,13 @@
 
   &__name {
     transition: all .3s ease-in-out;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
   }
 
   &__description {
@@ -79,6 +82,33 @@
       bottom: 100%;
       border: 7px solid transparent;
       border-bottom-width: 0;
+      border-top-color: $clr-accent;
+    }
+  }
+
+  &__confirmation {
+    position: absolute;
+    white-space: nowrap;
+    bottom: calc(100% + 20px);
+    transform: translateX(-50%);
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    z-index: 100;
+    color: $clr-primary;
+    background-color: $clr-accent;
+    padding: .5rem;
+    border: 1px solid $clr-primary;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      border: 10px solid transparent;
       border-top-color: $clr-accent;
     }
   }
