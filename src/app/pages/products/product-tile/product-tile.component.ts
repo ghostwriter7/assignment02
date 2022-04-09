@@ -14,7 +14,6 @@ export class ProductTileComponent implements OnInit {
   constructor(public iconsService: IconsService) { }
 
   ngOnInit(): void {
-    window.addEventListener('keydown', () => {});
   }
 
 }

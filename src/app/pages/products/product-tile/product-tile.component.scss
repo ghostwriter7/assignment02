@@ -1,11 +1,53 @@
 @import "../../../../assets/styles/colors";
 
 .product {
+  display: inline-flex;
+  background-color: $clr-secondary;
+  color: $clr-accent;
+  padding: .5rem 1rem;
+  margin: 1rem;
+  box-shadow: 5px 5px 0 $clr-primary;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:hover &__name {
+    color: $clr-primary;
+  }
+
+  &.active {
+    background-size: 50px 50px;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparentize($clr-primary, .5) 25%,
+        transparentize($clr-primary, .5) 50%,
+        transparent 50%,
+        transparent 75%,
+    );
+
+    &:hover {
+      transform: initial;
+    }
+
+    .product__name {
+      background-color: $clr-primary;
+      color: $clr-accent !important;
+    }
+  }
+
+  &__name {
+    transition: all .3s ease-in-out;
+  }
+
   &__description {
     align-self: flex-end;
-    cursor: pointer;
+    margin-left: .5rem;
     position: relative;
     perspective: 1000px;
+    color: $clr-primary;
 
     &:hover::before,
     &:hover::after {
@@ -41,4 +83,3 @@
     }
   }
 }
-
