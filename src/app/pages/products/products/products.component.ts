@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from '../core/interfaces';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProductsService } from '../core/services/ProductsService';
+import { map, Observable } from 'rxjs';
+import { IProduct } from '../core/interfaces';
 
 @Component({
   selector: 'app-products',
@@ -8,20 +10,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
-  public products: IProduct[] = [
-    { name: 'Product One', description: 'One is the best!' },
-    { name: 'Product Two', description: 'Two is the best!' },
-    { name: 'Product Three', description: 'Three is the best!' },
-    { name: 'Product Four', description: 'Four is the best!' }
-  ];
   public form!: FormGroup;
+  public products$!: Observable<IProduct[]>;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder,
+              private _productsService: ProductsService) { }
 
   ngOnInit(): void {
+    this.products$ = this._productsService.getProducts();
+
     this.form = this._fb.group({
-      products: this._fb.control(this.products[0])
+      products: this._fb.control('')
     });
+
+    this.form.valueChanges.pipe(map(x => x.products)).subscribe((product) => {
+      this._productsService.selectProduct(product);
+    })
   }
 
 }
