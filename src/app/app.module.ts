@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoaderComponent } from './ui/loader/loader.component';
+import { NotificationComponent } from './ui/notification/notification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoaderComponent
+    LoaderComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

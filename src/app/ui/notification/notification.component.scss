@@ -1,0 +1,19 @@
+.notification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding-block: 1rem;
+  font-weight: bold;
+}
+
+.success {
+  background-color: lightgreen;
+  color: green;
+}
+
+.error {
+  background-color: #e75c28;
+  color: red;
+}

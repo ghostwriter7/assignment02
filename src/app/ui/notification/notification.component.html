@@ -1,0 +1,7 @@
+<div
+  @showHide
+  class="notification"
+  [ngClass]="{ success: message.type === 'success', error: message.type === 'error' }"
+  *ngIf="message">
+  {{ message.message }}
+</div>
