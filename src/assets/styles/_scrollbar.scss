@@ -1,0 +1,17 @@
+@import './colors';
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: $clr-primary;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparentize($clr-accent, .5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $clr-accent;
+}
