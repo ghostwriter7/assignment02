@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IProduct } from '../interfaces';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { database } from '../../../../core/libs/Firebase';
-import { set, ref, get, child, push, update } from 'firebase/database';
+import { set, ref, get, child, push, update, remove } from 'firebase/database';
 import { EventsService } from '../../../../core/services/EventsService';
 
 @Injectable({
@@ -22,7 +22,12 @@ export class ProductsService {
     const dbRef = ref(database);
     get(child(dbRef, 'products/')).then(snapshot => {
       debugger
-      this._products = snapshot.exists() ? Object.values(snapshot.val()) : [];
+      this._products = snapshot.exists() ? snapshot.val() : [];
+
+      if (!Array.isArray(this._products)) {
+        this._products = Object.entries<IProduct>(this._products).flatMap(([key, product]) => ({ ...product, id: key}))
+      }
+
       this._products$.next(this._products);
     }).catch(e => {
       //...handle errors
@@ -77,7 +82,11 @@ export class ProductsService {
       this._selectedProduct$.next(this._selectedProduct);
     }
 
-    this.saveData();
+    this._eventsService.startLoading();
+    remove(ref(database, `products/${product.id}`))
+    .finally(() => {
+      this._eventsService.stopLoading();
+    });
   }
 
   private getIndex(product: IProduct): number {
