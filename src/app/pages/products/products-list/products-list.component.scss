@@ -1,8 +1,6 @@
 @import "../../../../assets/styles/colors";
-@import '../../../../assets/styles/container';
 
 .products {
-  @include container;
   overflow: hidden;
 
   &__header {
@@ -25,5 +23,17 @@
     flex-wrap: wrap;
     padding: 1rem 3rem;
     border: 4px solid $clr-accent;
+
+    &.empty {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      fa-icon {
+        font-size: 2rem;
+        color: $clr-accent;
+      }
+    }
   }
 }

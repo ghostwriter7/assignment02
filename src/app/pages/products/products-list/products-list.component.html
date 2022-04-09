@@ -12,12 +12,19 @@
     @showHide
     *ngIf="isVisible"
     class="products__list d-flex justify-center"
-    [ngClass]="{ disabled: disabled }">
-    <app-product-tile
-      *ngFor="let product of products"
-      [product]="product"
-      (onSelect)="onSelectProduct(product)">
-    </app-product-tile>
+    [ngClass]="{ disabled: disabled, empty: !products.length }">
+    <ng-container *ngIf="products.length; else noProducts">
+      <app-product-tile
+        *ngFor="let product of products"
+        [product]="product"
+        (onSelect)="onSelectProduct(product)">
+      </app-product-tile>
+    </ng-container>
   </div>
 </div>
+
+<ng-template #noProducts>
+  <h3>There are no products in the storage. Please add them.</h3>
+  <fa-icon [icon]="iconsService.getIcon('addProduct')"></fa-icon>
+</ng-template>
 

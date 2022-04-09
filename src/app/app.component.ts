@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventsService } from './core/services/EventsService';
+import { EventsService } from './core/services';
 import { Observable } from 'rxjs';
 import { INotification } from './core/interfaces';
 import { NotificationService } from './core/services';
