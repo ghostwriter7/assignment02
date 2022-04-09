@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 @import "./assets/styles/disabled";
 @import './assets/styles/flexbox';
-@import './assets/styles/_scrollbar.scss';
+@import './assets/styles/scrollbar.scss';
+@import './assets/styles/button.scss';
 
 body {
   font-family: 'Montserrat', sans-serif;

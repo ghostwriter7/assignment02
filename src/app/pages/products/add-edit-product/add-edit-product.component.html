@@ -1,32 +1,39 @@
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h3>{{ isNewProduct ? 'Add new product' : 'Update product' }}</h3>
-  <div class="form__control">
-    <label class="form__label" for="name">
-      Product's name
+  <h3 class="form__title">
+    <fa-icon [icon]="iconsService.getIcon(isNewProduct ? 'add' : 'update')"></fa-icon>{{ isNewProduct ? 'Add new product' : 'Update product' }}</h3>
+  <div class="form__controls-wrapper">
+    <div class="form__control">
+      <label class="form__label" for="name">Product's name</label>
       <input
+        class="form__input"
         formControlName="name"
         type="text"
         id="name">
-    </label>
-  </div>
-  <div class="form__control">
-    <label class="form__label" for="description">
-      Description
+      <span *ngIf="name.touched && name.errors" class="form__feedback">
+        {{ name.errors['required'] ? 'Name is required!' : 'Too long name...' }}
+      </span>
+    </div>
+    <div class="form__control">
+      <label class="form__label" for="description">Short description</label>
       <input
+        class="form__input"
         formControlName="description"
         type="text"
         id="description">
-    </label>
+      <span *ngIf="description.touched && description.errors" class="form__feedback">
+        {{ description.errors['required'] ? 'Description is required!' : 'Too long description...' }}
+      </span>
+    </div>
   </div>
   <div class="form__actions">
     <button
       [disabled]="form.invalid"
       type="submit"
-      class="btn btn-primary">{{ isNewProduct ? 'Add' : 'Update' }}</button>
+      class="btn btn--primary">{{ isNewProduct ? 'Add' : 'Update' }}</button>
     <button
       (click)="onClear()"
       [disabled]="form.pristine"
       type="button"
-      class="btn btn-secondary">Clear</button>
+      class="btn btn--secondary">Clear</button>
   </div>
 </form>

@@ -4,4 +4,67 @@
   border: 4px solid $clr-accent;
   padding: 1rem;
   background-color: #fff;
+
+  &__controls-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 650px) {
+    &__controls-wrapper {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+
+  &__title {
+    background-color: $clr-accent;
+    color: $clr-primary;
+    padding: 1rem 1.5rem;
+    margin: 0 0 0 auto;
+    width: fit-content;
+
+    fa-icon {
+      margin-right: 1rem;
+    }
+  }
+
+  &__control {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-block: 1rem;
+  }
+
+  &__label {
+    font-size: .9rem;
+    opacity: .9;
+    letter-spacing: 2px;
+    margin-bottom: .25rem;
+  }
+
+  &__input {
+    font-family: inherit;
+    outline-color: $clr-accent;
+    padding: .5rem;
+
+    &.ng-valid.ng-touched {
+      border: 1px solid lightgreen;
+    }
+
+    &.ng-invalid.ng-touched {
+      border: 1px solid #e75c28;
+    }
+  }
+
+  &__feedback {
+    margin-top: .2rem;
+    font-size: .7rem;
+    color: #e75c28;
+  }
+
+  &__actions {
+    margin-top: 1rem;
+    text-align: right;
+  }
 }

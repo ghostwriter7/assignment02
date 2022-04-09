@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../core/services/ProductsService';
 import { Subject, takeUntil } from 'rxjs';
+import { IconsService } from '../../../core/services';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -11,15 +12,21 @@ import { Subject, takeUntil } from 'rxjs';
 export class AddEditProductComponent implements OnInit, OnDestroy {
   public isNewProduct = true;
   public form!: FormGroup;
+  public get name() { return this.form.get('name')!; }
+  public get description() { return this.form.get('description')!; }
+
   private _destroy$ = new Subject<void>();
 
-  constructor(private _fb: FormBuilder,
-              private _productsService: ProductsService) { }
+  constructor(
+    public iconsService: IconsService,
+    private _fb: FormBuilder,
+    private _productsService: ProductsService,
+  ) {}
 
   ngOnInit(): void {
     this.form = this._fb.group({
-      name: this._fb.control('', [Validators.required]),
-      description: this._fb.control('', [Validators.required]),
+      name: this._fb.control('', [Validators.required, Validators.maxLength(15)]),
+      description: this._fb.control('', [Validators.required, Validators.maxLength(30)]),
       id: this._fb.control('')
     });
 
@@ -46,7 +53,7 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
   }
 
   public onClear(): void {
-    this.form.setValue({
+    this.form.reset({
       name: '',
       description: '',
       id: ''

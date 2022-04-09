@@ -1,0 +1,44 @@
+@import './colors';
+
+.btn {
+  padding: .5rem 1.25rem;
+  margin-inline: .25rem;
+  cursor: pointer;
+  border: 0;
+  border-radius: .25rem;
+  letter-spacing: 2px;
+  transition: all 0.3s ease-in-out;
+
+  &:disabled {
+    pointer-events: none;
+    opacity: .7;
+  }
+
+  &--primary {
+    background-color: $clr-primary;
+    color: $clr-accent;
+
+    &:hover {
+      box-shadow: 2px 2px 0 $clr-accent;
+    }
+
+    &:active {
+      box-shadow: 4px 4px 0 $clr-accent;
+      transform: scale(.95);
+    }
+  }
+
+  &--secondary {
+    background-color: transparentize($clr-secondary, .5);
+    color: $clr-primary;
+
+    &:hover {
+      box-shadow: 2px 2px 0 $clr-secondary;
+    }
+
+    &:active {
+      box-shadow: 4px 4px 0 $clr-secondary;
+      transform: scale(.95);
+    }
+  }
+}
