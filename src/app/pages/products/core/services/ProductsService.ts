@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from '../interfaces';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { database } from '../../../../core/libs/Firebase';
-import { set, ref, get, child, push, update, remove } from 'firebase/database';
-import { EventsService } from '../../../../core/services/EventsService';
+import { ref, get, child, push, update, remove } from 'firebase/database';
+import { EventsService } from '../../../../core/services';
+import { NotificationService } from '../../../../core/services';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,15 @@ export class ProductsService {
   private _selectedProduct?: IProduct;
   private _selectedProduct$ = new Subject<IProduct | undefined>();
 
-  constructor(private _eventsService: EventsService) {}
+  constructor(private _eventsService: EventsService,
+              private _notificationService: NotificationService) {}
 
   public fetchProducts() {
     this._eventsService.startLoading();
 
     const dbRef = ref(database);
-    get(child(dbRef, 'products/')).then(snapshot => {
+    get(child(dbRef, 'products/'))
+      .then(snapshot => {
       this._products = snapshot.exists() ? snapshot.val() : [];
 
       if (!Array.isArray(this._products)) {
@@ -28,11 +31,10 @@ export class ProductsService {
       }
 
       this._products$.next(this._products);
-    }).catch(e => {
-      //...handle errors
-    }).finally(() => {
-      this._eventsService.stopLoading();
-    });
+      this.handleSuccess('Products fetched successfully!');
+    })
+      .catch(this.handleError.bind(this, 'An error occurred while fetching products!'))
+      .finally(this._eventsService.stopLoading.bind(this._eventsService));
   }
 
   public getProducts(): Observable<IProduct[]> {
@@ -55,32 +57,28 @@ export class ProductsService {
     const newKey = push(child(ref(database), 'products')).key;
 
     this._eventsService.startLoading();
-    update(ref(database), {
-      ['/products/' + newKey]: product
-    }).finally(() => {
-      this._eventsService.stopLoading();
-    });
+    update(ref(database), { ['/products/' + newKey]: product})
+      .then(this.handleSuccess.bind(this, 'New product added successfully!'))
+      .catch(this.handleError.bind(this, 'An error occurred while saving new product!'))
+      .finally(this._eventsService.stopLoading.bind(this._eventsService));
   }
 
   public updateProduct(product: IProduct): void {
     const idx = this.getIndex(product);
     this._products[idx] = { ...product };
-    debugger
     this._products$.next(this._products);
     this._selectedProduct = undefined;
     this._selectedProduct$.next(this._selectedProduct);
 
     this._eventsService.startLoading();
-    update(ref(database), {
-      ['/products/' + product.id]: product
-    }).finally(() => {
-      this._eventsService.stopLoading();
-    });
+    update(ref(database), { ['/products/' + product.id]: product})
+      .then(this.handleSuccess.bind(this, 'Product updated successfully!'))
+      .catch(this.handleError.bind(this, 'An error occurred while updating your product!'))
+      .finally(this._eventsService.stopLoading.bind(this._eventsService));
   }
 
   public deleteProduct(product: IProduct): void {
     const idx = this.getIndex(product);
-    debugger
     this._products.splice(idx, 1);
     this._products$.next(this._products);
 
@@ -91,12 +89,20 @@ export class ProductsService {
 
     this._eventsService.startLoading();
     remove(ref(database, `products/${product.id}`))
-    .finally(() => {
-      this._eventsService.stopLoading();
-    });
+      .then(this.handleSuccess.bind(this, 'Product deleted successfully!'))
+      .catch(this.handleError.bind(this, 'An error occurred while deleting your product'))
+      .finally(this._eventsService.stopLoading.bind(this._eventsService));
   }
 
   private getIndex(product: IProduct): number {
     return this._products.findIndex(x => x.id === product.id);
+  }
+
+  private handleSuccess(message: string): void {
+    this._notificationService.onSuccess(message);
+  }
+
+  private handleError(message: string): void {
+    this._notificationService.onError(message);
   }
 }

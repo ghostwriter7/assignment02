@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IProduct } from '../core/interfaces';
-import { IconsService } from '../../../core/services/IconsService';
+import { IconsService } from '../../../core/services';
 import { ProductsService } from '../core/services/ProductsService';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-tile',

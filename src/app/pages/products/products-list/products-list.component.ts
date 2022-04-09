@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IProduct } from '../core/interfaces';
-import { IconsService } from '../../../core/services/IconsService';
+import { IconsService } from '../../../core/services';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({

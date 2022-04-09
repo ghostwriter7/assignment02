@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventsService } from './core/services/EventsService';
 import { Observable } from 'rxjs';
+import { INotification } from './core/interfaces';
+import { NotificationService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,13 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   public loading$!: Observable<boolean>;
-  constructor(private _eventsService: EventsService) {}
+  public notification$!: Observable<INotification>;
+
+  constructor(private _eventsService: EventsService,
+              private _notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.loading$ = this._eventsService.getLoadingState();
+    this.notification$ = this._notificationService.getNotifications();
   }
 }
