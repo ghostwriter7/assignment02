@@ -1,1 +1,44 @@
+@import "../../../../assets/styles/colors";
+
+.product {
+  &__description {
+    align-self: flex-end;
+    cursor: pointer;
+    position: relative;
+    perspective: 1000px;
+
+    &:hover::before,
+    &:hover::after {
+      display: block;
+      transform: translateX(-50%) rotateY(0deg);
+      transition: all .8s ease-in-out;
+    }
+
+    &::before, &::after {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) rotateY(-180deg);
+      backface-visibility: hidden;
+      transition: all .8s ease-in-out;
+    }
+
+    &::before {
+      content: attr(data-description);
+      bottom: calc(100% + 7px);
+      background-color: $clr-accent;
+      color: $clr-primary;
+      border-radius: .25rem;
+      padding: .5rem;
+      white-space: nowrap;
+    }
+
+    &::after {
+      content: '';
+      bottom: 100%;
+      border: 7px solid transparent;
+      border-bottom-width: 0;
+      border-top-color: $clr-accent;
+    }
+  }
+}
 

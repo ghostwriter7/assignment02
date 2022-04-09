@@ -1,5 +1,10 @@
 <div
   (click)="onSelect.emit()"
-  class="product">
-  {{ product.name }}
+  class="product d-flex">
+    <h3 class="product__name">{{ product.name }}</h3>
+    <fa-icon
+      [attr.data-description]="product.description"
+      class="product__description"
+      [icon]="iconsService.getIcon('question')">
+    </fa-icon>
 </div>
