@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class EventsService {
-  private isLoading$ = new BehaviorSubject<boolean>(true);
+  private isLoading$ = new Subject<boolean>();
 
   public getLoadingState(): Observable<boolean> {
     return this.isLoading$.asObservable();

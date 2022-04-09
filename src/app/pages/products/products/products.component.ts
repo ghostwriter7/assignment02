@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProductsService } from '../core/services/ProductsService';
 import { map, Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { IProduct } from '../core/interfaces';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, AfterViewInit {
   public form!: FormGroup;
   public products$!: Observable<IProduct[]>;
 
@@ -17,7 +17,6 @@ export class ProductsComponent implements OnInit {
               private _productsService: ProductsService) { }
 
   ngOnInit(): void {
-    this._productsService.fetchProducts();
     this.products$ = this._productsService.getProducts();
 
     this.form = this._fb.group({
@@ -27,6 +26,12 @@ export class ProductsComponent implements OnInit {
     this.form.valueChanges.pipe(map(x => x.products)).subscribe((product) => {
       this._productsService.selectProduct(product);
     })
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this._productsService.fetchProducts();
+    }, 0);
   }
 
 }

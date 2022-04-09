@@ -1,6 +1,7 @@
 <app-add-edit-product></app-add-edit-product>
 <div [formGroup]="form" *ngIf="products$ | async as products">
   <app-products-list
+    *ngIf="products.length"
     [products]="products"
     formControlName="products">
   </app-products-list>

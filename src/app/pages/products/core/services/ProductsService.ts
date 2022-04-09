@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from '../interfaces';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { database } from '../../../../core/libs/Firebase';
-import { set, ref, get, child } from 'firebase/database';
+import { set, ref, get, child, push, update } from 'firebase/database';
 import { EventsService } from '../../../../core/services/EventsService';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  private _products: IProduct[] = [
-    { name: 'Product One', description: 'One is the best!' },
-    { name: 'Product Two', description: 'Two is the best!' },
-    { name: 'Product Three', description: 'Three is the best!' },
-    { name: 'Product Four', description: 'Four is the best!' }
-  ];
-  private _products$ = new BehaviorSubject<IProduct[]>(this._products)
+  private _products: IProduct[] = [];
+  private _products$ = new ReplaySubject<IProduct[]>(1);
   private _selectedProduct?: IProduct;
   private _selectedProduct$ = new Subject<IProduct | undefined>();
 
@@ -26,7 +21,8 @@ export class ProductsService {
 
     const dbRef = ref(database);
     get(child(dbRef, 'products/')).then(snapshot => {
-      this._products = snapshot.exists() ? snapshot.val() : [];
+      debugger
+      this._products = snapshot.exists() ? Object.values(snapshot.val()) : [];
       this._products$.next(this._products);
     }).catch(e => {
       //...handle errors
@@ -52,7 +48,14 @@ export class ProductsService {
     this._products.push(product);
     this._products$.next(this._products);
 
-    this.saveData();
+    const newKey = push(child(ref(database), 'products')).key;
+
+    this._eventsService.startLoading();
+    update(ref(database), {
+      ['/products/' + newKey]: product
+    }).finally(() => {
+      this._eventsService.stopLoading();
+    });
   }
 
   public updateProduct(product: IProduct): void {

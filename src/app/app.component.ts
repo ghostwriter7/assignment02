@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventsService } from './core/services/EventsService';
 import { Observable } from 'rxjs';
 
@@ -12,8 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private _eventsService: EventsService) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.loading$ = this._eventsService.getLoadingState();
-    }, 0);
+    this.loading$ = this._eventsService.getLoadingState();
   }
 }
