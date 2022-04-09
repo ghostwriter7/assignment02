@@ -1,6 +1,6 @@
 <div
   (click)="onSelect.emit()"
-  class="product">
+  class="product" [ngClass]="{ active: isActive }">
     <h3 class="product__name">{{ product.name }}</h3>
     <fa-icon
       [attr.data-description]="product.description"

@@ -9,6 +9,7 @@ import { IconsService } from '../../../core/services/IconsService';
 })
 export class ProductTileComponent implements OnInit {
   @Input() product!: IProduct;
+  @Input() isActive!: boolean;
   @Output() onSelect = new EventEmitter<void>();
 
   constructor(public iconsService: IconsService) { }

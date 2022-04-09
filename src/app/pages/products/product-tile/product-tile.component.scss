@@ -67,8 +67,7 @@
     &::before {
       content: attr(data-description);
       bottom: calc(100% + 7px);
-      background-color: $clr-accent;
-      color: $clr-primary;
+      @include highlight;
       border-radius: .25rem;
       padding: .5rem;
       white-space: nowrap;

@@ -2,3 +2,7 @@ $clr-primary: #fcf5ba;
 $clr-secondary: #2a2a23;
 $clr-accent: #4a722e;
 
+@mixin highlight {
+  background-color: $clr-accent;
+  color: $clr-primary;
+}

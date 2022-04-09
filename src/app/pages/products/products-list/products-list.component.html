@@ -1,7 +1,24 @@
-<div class="products-list" [ngClass]="{ disabled: disabled }">
-  <app-product-tile
-    *ngFor="let product of products"
-    [product]="product"
-    (onSelect)="onSelectProduct(product)">
-  </app-product-tile>
+<div class="products">
+  <div class="products__header d-flex align-center justify-between">
+    <h2 class="products__label">Products</h2>
+    <fa-icon
+      [ngClass]="{ closed: !isVisible }"
+      (click)="onToggle()"
+      class="products__toggle"
+      [icon]="iconsService.getIcon('chevron')">
+    </fa-icon>
+  </div>
+  <div
+    @showHide
+    *ngIf="isVisible"
+    class="products__list d-flex"
+    [ngClass]="{ disabled: disabled }">
+    <app-product-tile
+      *ngFor="let product of products"
+      [product]="product"
+      [isActive]="selectedProduct === product"
+      (onSelect)="onSelectProduct(product)">
+    </app-product-tile>
+  </div>
 </div>
+
