@@ -19,7 +19,8 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.form = this._fb.group({
       name: this._fb.control('', [Validators.required]),
-      description: this._fb.control('', [Validators.required])
+      description: this._fb.control('', [Validators.required]),
+      id: this._fb.control('')
     });
 
     this._productsService.getSelectedProduct().pipe(takeUntil(this._destroy$))
@@ -28,7 +29,7 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
       if (product) {
         this.form.setValue({...product});
       } else {
-        this.form.setValue({ name: '', description: ''});
+        this.form.setValue({ name: '', description: '', id: ''});
         this.isNewProduct = true;
       }
     });
@@ -47,7 +48,8 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
   public onClear(): void {
     this.form.setValue({
       name: '',
-      description: ''
+      description: '',
+      id: ''
     });
   }
 

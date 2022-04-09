@@ -21,7 +21,6 @@ export class ProductsService {
 
     const dbRef = ref(database);
     get(child(dbRef, 'products/')).then(snapshot => {
-      debugger
       this._products = snapshot.exists() ? snapshot.val() : [];
 
       if (!Array.isArray(this._products)) {
@@ -65,15 +64,23 @@ export class ProductsService {
 
   public updateProduct(product: IProduct): void {
     const idx = this.getIndex(product);
-    this._products[idx] = product;
+    this._products[idx] = { ...product };
+    debugger
+    this._products$.next(this._products);
     this._selectedProduct = undefined;
     this._selectedProduct$.next(this._selectedProduct);
 
-    this.saveData();
+    this._eventsService.startLoading();
+    update(ref(database), {
+      ['/products/' + product.id]: product
+    }).finally(() => {
+      this._eventsService.stopLoading();
+    });
   }
 
   public deleteProduct(product: IProduct): void {
     const idx = this.getIndex(product);
+    debugger
     this._products.splice(idx, 1);
     this._products$.next(this._products);
 
@@ -90,12 +97,6 @@ export class ProductsService {
   }
 
   private getIndex(product: IProduct): number {
-    return this._products.findIndex(x => x === product);
-  }
-
-  private saveData(): void {
-    set(ref(database, 'products/'), {
-      ...this._products
-    }).then(console.log).catch(console.log);
+    return this._products.findIndex(x => x.id === product.id);
   }
 }
