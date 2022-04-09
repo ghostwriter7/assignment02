@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IProduct } from '../core/interfaces';
 import { IconsService } from '../../../core/services/IconsService';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-products-list',
@@ -25,6 +25,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
         style({transform: 'translateY(0)'}),
         animate('500ms', style({transform: 'translateY(-200%)'}))
       ])
+    ]),
+    trigger('skipInitAnim', [
+      transition(':enter', [])
     ])
   ]
 })

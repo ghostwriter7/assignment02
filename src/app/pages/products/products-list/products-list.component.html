@@ -1,4 +1,4 @@
-<div class="products">
+<div class="products" @skipInitAnim>
   <div class="products__header d-flex align-center justify-between">
     <h2 class="products__label">Products</h2>
     <fa-icon
@@ -11,7 +11,7 @@
   <div
     @showHide
     *ngIf="isVisible"
-    class="products__list d-flex"
+    class="products__list d-flex justify-center"
     [ngClass]="{ disabled: disabled }">
     <app-product-tile
       *ngFor="let product of products"
