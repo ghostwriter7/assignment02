@@ -14,7 +14,7 @@ export class ProductsService {
   ];
   private _products$ = new BehaviorSubject<IProduct[]>(this._products)
   private _selectedProduct?: IProduct;
-  private _selectedProduct$ = new Subject<IProduct>();
+  private _selectedProduct$ = new Subject<IProduct | undefined>();
 
   public getProducts(): Observable<IProduct[]> {
     return this._products$.asObservable();
@@ -25,7 +25,34 @@ export class ProductsService {
     this._selectedProduct$.next(this._selectedProduct);
   }
 
-  public getSelectedProduct(): Observable<IProduct> {
+  public getSelectedProduct(): Observable<IProduct | undefined> {
     return this._selectedProduct$.asObservable();
+  }
+
+  public addNewProduct(product: IProduct): void {
+    this._products.push(product);
+    this._products$.next(this._products);
+  }
+
+  public updateProduct(product: IProduct): void {
+    const idx = this.getIndex(product);
+    this._products[idx] = product;
+    this._selectedProduct = undefined;
+    this._selectedProduct$.next(this._selectedProduct);
+  }
+
+  public deleteProduct(product: IProduct): void {
+    const idx = this.getIndex(product);
+    this._products.splice(idx, 1);
+    this._products$.next(this._products);
+
+    if (this._selectedProduct === product) {
+      this._selectedProduct = undefined;
+      this._selectedProduct$.next(this._selectedProduct);
+    }
+  }
+
+  private getIndex(product: IProduct): number {
+    return this._products.findIndex(x => x === product);
   }
 }

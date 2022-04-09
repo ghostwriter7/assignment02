@@ -7,4 +7,8 @@
       class="product__description"
       [icon]="iconsService.getIcon('question')">
     </fa-icon>
+    <fa-icon
+      (click)="onDelete()"
+      [icon]="iconsService.getIcon('trash')">
+    </fa-icon>
 </div>

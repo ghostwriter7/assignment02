@@ -25,12 +25,23 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
     this._productsService.getSelectedProduct().pipe(takeUntil(this._destroy$))
       .subscribe((product) => {
       this.isNewProduct = false;
-      this.form.setValue({...product});
+      if (product) {
+        this.form.setValue({...product});
+      } else {
+        this.form.setValue({ name: '', description: ''});
+        this.isNewProduct = true;
+      }
     });
   }
 
   public onSubmit(): void {
-    console.log('submitted');
+    const { value } = this.form;
+    this.isNewProduct
+      ? this._productsService.addNewProduct(value)
+      : this._productsService.updateProduct(value);
+
+    this.isNewProduct = true;
+    this.onClear();
   }
 
   public onClear(): void {
