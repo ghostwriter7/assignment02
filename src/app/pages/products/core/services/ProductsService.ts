@@ -31,7 +31,8 @@ export class ProductsService {
       }
 
       this._products$.next(this._products);
-      this.handleSuccess('Products fetched successfully!');
+      const message = this._products.length ? 'Products fetched successfully!' : 'There are no products in the database!';
+      this.handleSuccess(message);
     })
       .catch(this.handleError.bind(this, 'An error occurred while fetching products!'))
       .finally(this._eventsService.stopLoading.bind(this._eventsService));

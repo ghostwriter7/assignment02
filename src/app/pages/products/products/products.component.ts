@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
 
     this.form.valueChanges.pipe(map(x => x.products)).subscribe((product) => {
       this._productsService.selectProduct(product);
-    })
+    });
   }
 
   ngAfterViewInit(): void {

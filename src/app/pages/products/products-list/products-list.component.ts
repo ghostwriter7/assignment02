@@ -37,6 +37,7 @@ export class ProductsListComponent implements OnInit, ControlValueAccessor {
   public onTouched!: () => void;
   public disabled = false;
   public isVisible = true;
+  private _selectedProduct?: IProduct;
 
   constructor(public iconsService: IconsService) { }
 
@@ -62,7 +63,8 @@ export class ProductsListComponent implements OnInit, ControlValueAccessor {
   }
 
   public onSelectProduct(product: IProduct): void {
-    this.writeValue(product);
+    this._selectedProduct = product === this._selectedProduct ? undefined : product;
+    this.writeValue(this._selectedProduct);
   }
 
   public onToggle(): void {

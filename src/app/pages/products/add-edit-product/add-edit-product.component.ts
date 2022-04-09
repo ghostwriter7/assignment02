@@ -32,9 +32,9 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
 
     this._productsService.getSelectedProduct().pipe(takeUntil(this._destroy$))
       .subscribe((product) => {
-      this.isNewProduct = false;
       if (product) {
         this.form.setValue({...product});
+        this.isNewProduct = false;
       } else {
         this.form.setValue({ name: '', description: '', id: ''});
         this.isNewProduct = true;
@@ -53,11 +53,16 @@ export class AddEditProductComponent implements OnInit, OnDestroy {
   }
 
   public onClear(): void {
-    this.form.reset({
-      name: '',
-      description: '',
-      id: ''
-    });
+    if (this.form.value['id']) {
+      this.form.reset({ name: '', description: '', id: this.form.value['id']});
+    } else {
+      this.isNewProduct = true;
+      this.form.reset({
+        name: '',
+        description: '',
+        id: ''
+      });
+    }
   }
 
   ngOnDestroy() {
