@@ -24,6 +24,7 @@ export class ProductTileComponent implements OnInit {
   }
 
   public onShowConfirmation(): void {
+    this.showConfirmationPopup = true;
     setTimeout(() => {
       this.showConfirmationPopup = false;
     }, 3000);
@@ -32,5 +33,4 @@ export class ProductTileComponent implements OnInit {
   public onDelete(): void {
     this._productsService.deleteProduct(this.product);
   }
-
 }

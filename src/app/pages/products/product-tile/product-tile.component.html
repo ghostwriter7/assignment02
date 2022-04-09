@@ -4,7 +4,7 @@
   <h3 class="product__name">{{ product.name }}</h3>
   <div class="product__actions">
     <fa-icon
-      (mouseenter)="showConfirmationPopup = true"
+      (mouseenter)="onShowConfirmation()"
       [icon]="iconsService.getIcon('trash')">
     </fa-icon>
     <fa-icon
@@ -14,7 +14,6 @@
     </fa-icon>
     <div
       class="product__confirmation"
-      (mouseenter)="onShowConfirmation()"
       *ngIf="showConfirmationPopup">
       Are you sure?
       <div>
