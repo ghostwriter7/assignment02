@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from '../interfaces';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { database } from '../../../../core/libs/Firebase';
+import { set, ref, get, child } from 'firebase/database';
+import { EventsService } from '../../../../core/services/EventsService';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,22 @@ export class ProductsService {
   private _products$ = new BehaviorSubject<IProduct[]>(this._products)
   private _selectedProduct?: IProduct;
   private _selectedProduct$ = new Subject<IProduct | undefined>();
+
+  constructor(private _eventsService: EventsService) {}
+
+  public fetchProducts() {
+    this._eventsService.startLoading();
+
+    const dbRef = ref(database);
+    get(child(dbRef, 'products/')).then(snapshot => {
+      this._products = snapshot.exists() ? snapshot.val() : [];
+      this._products$.next(this._products);
+    }).catch(e => {
+      //...handle errors
+    }).finally(() => {
+      this._eventsService.stopLoading();
+    });
+  }
 
   public getProducts(): Observable<IProduct[]> {
     return this._products$.asObservable();
@@ -32,6 +51,8 @@ export class ProductsService {
   public addNewProduct(product: IProduct): void {
     this._products.push(product);
     this._products$.next(this._products);
+
+    this.saveData();
   }
 
   public updateProduct(product: IProduct): void {
@@ -39,6 +60,8 @@ export class ProductsService {
     this._products[idx] = product;
     this._selectedProduct = undefined;
     this._selectedProduct$.next(this._selectedProduct);
+
+    this.saveData();
   }
 
   public deleteProduct(product: IProduct): void {
@@ -50,9 +73,17 @@ export class ProductsService {
       this._selectedProduct = undefined;
       this._selectedProduct$.next(this._selectedProduct);
     }
+
+    this.saveData();
   }
 
   private getIndex(product: IProduct): number {
     return this._products.findIndex(x => x === product);
+  }
+
+  private saveData(): void {
+    set(ref(database, 'products/'), {
+      ...this._products
+    }).then(console.log).catch(console.log);
   }
 }

@@ -17,6 +17,7 @@ export class ProductsComponent implements OnInit {
               private _productsService: ProductsService) { }
 
   ngOnInit(): void {
+    this._productsService.fetchProducts();
     this.products$ = this._productsService.getProducts();
 
     this.form = this._fb.group({

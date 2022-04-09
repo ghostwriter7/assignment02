@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
-import { faChevronUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faQuestionCircle, faTrashArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,8 @@ import { faChevronUp, faQuestionCircle } from '@fortawesome/free-solid-svg-icons
 export class IconsService {
   private icons: { [icon: string]: IconDefinition } = {
     question: faQuestionCircle,
-     chevron: faChevronUp
+    chevron: faChevronUp,
+    trash: faTrashArrowUp
   };
 
   public getIcon(name: string): IconDefinition {
