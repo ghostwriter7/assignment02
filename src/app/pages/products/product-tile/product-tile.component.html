@@ -4,7 +4,7 @@
   <h3 class="product__name">{{ product.name }}</h3>
   <div class="product__actions">
     <fa-icon
-      (mouseenter)="onShowConfirmation()"
+      (click)="$event.stopPropagation(); onShowConfirmation()"
       [icon]="iconsService.getIcon('trash')">
     </fa-icon>
     <fa-icon
